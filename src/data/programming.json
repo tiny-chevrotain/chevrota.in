@@ -1,0 +1,28 @@
+[
+  {
+    "id": "example-project",
+    "title": "Example Project",
+    "date": "2024-06",
+    "description": "A placeholder programming project. Replace this with a real description of what you built, the problem it solved, and the technologies used.",
+    "tags": ["TypeScript", "React", "AWS"],
+    "media": {
+      "kind": "photo",
+      "src": "/media/programming/example-project.jpg",
+      "alt": "Screenshot of Example Project"
+    }
+  },
+  {
+    "id": "another-project",
+    "title": "Another Project",
+    "date": "2023-11",
+    "description": "Another placeholder entry. This one demonstrates the carousel media type.",
+    "tags": ["Python", "API"],
+    "media": {
+      "kind": "carousel",
+      "photos": [
+        { "src": "/media/programming/another-project-1.jpg", "alt": "Screenshot 1" },
+        { "src": "/media/programming/another-project-2.jpg", "alt": "Screenshot 2" }
+      ]
+    }
+  }
+]

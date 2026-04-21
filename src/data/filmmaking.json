@@ -1,0 +1,26 @@
+[
+  {
+    "id": "example-film",
+    "title": "Example Film",
+    "date": "2024-03",
+    "description": "A placeholder film entry. Replace with a real description of the film, its themes, and the story behind making it.",
+    "tags": ["Short Film", "Drama"],
+    "media": {
+      "kind": "video",
+      "src": "/media/filmmaking/example-film.mp4",
+      "poster": "/media/filmmaking/example-film-poster.jpg"
+    }
+  },
+  {
+    "id": "another-film",
+    "title": "Another Film",
+    "date": "2023-08",
+    "description": "A second placeholder film entry to show the grid layout with multiple items.",
+    "tags": ["Documentary"],
+    "media": {
+      "kind": "video",
+      "src": "/media/filmmaking/another-film.mp4",
+      "poster": "/media/filmmaking/another-film-poster.jpg"
+    }
+  }
+]

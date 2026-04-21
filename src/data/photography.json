@@ -1,0 +1,29 @@
+[
+  {
+    "id": "example-series",
+    "title": "Example Series",
+    "date": "2024-05",
+    "description": "A placeholder photography series. Replace with a description of where these were taken, the mood you were going for, and the equipment used.",
+    "tags": ["Landscape", "Film"],
+    "media": {
+      "kind": "carousel",
+      "photos": [
+        { "src": "/media/photography/series-1.jpg", "alt": "Photo one" },
+        { "src": "/media/photography/series-2.jpg", "alt": "Photo two" },
+        { "src": "/media/photography/series-3.jpg", "alt": "Photo three" }
+      ]
+    }
+  },
+  {
+    "id": "single-shot",
+    "title": "Single Shot",
+    "date": "2024-01",
+    "description": "A placeholder for a standalone photograph. Replace with a real description.",
+    "tags": ["Portrait"],
+    "media": {
+      "kind": "photo",
+      "src": "/media/photography/single-shot.jpg",
+      "alt": "A portrait photograph"
+    }
+  }
+]
