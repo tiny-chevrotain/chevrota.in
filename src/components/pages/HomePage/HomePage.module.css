@@ -1,0 +1,94 @@
+.homePage {
+  position: relative;
+  min-height: calc(100svh - 73px); /* subtract nav height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-l);
+  overflow: hidden;
+}
+
+.collageLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bio {
+  position: relative;
+  z-index: 2;
+  max-width: 540px;
+  width: 100%;
+  text-align: center;
+  background: rgba(245, 240, 232, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 28px;
+  padding: var(--space-xl) var(--space-l);
+  box-shadow: 0 8px 48px rgba(26, 22, 37, 0.10), 0 2px 8px rgba(26, 22, 37, 0.06);
+  animation: fadeIn 400ms ease forwards;
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: var(--space-s);
+  line-height: 1.1;
+}
+
+.tagline {
+  font-family: var(--font-sans);
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: var(--space-l);
+}
+
+.bioParagraph {
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  line-height: 1.75;
+  margin-bottom: var(--space-m);
+}
+
+.bioParagraph:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .homePage {
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-l) var(--space-m);
+    overflow: visible;
+    min-height: unset;
+  }
+
+  .collageLayer {
+    position: static;
+    display: flex;
+    gap: var(--space-m);
+    overflow-x: auto;
+    padding: var(--space-m) var(--space-m) var(--space-l);
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .collageLayer > * {
+    position: static !important;
+    transform: none !important;
+    flex-shrink: 0;
+    width: 160px !important;
+    scroll-snap-align: start;
+  }
+
+  .bio {
+    padding: var(--space-l) var(--space-m);
+    border-radius: var(--radius-card);
+  }
+}

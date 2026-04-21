@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Nav } from './components/Nav/Nav';
 import type { Tab } from './components/Nav/Nav';
+import { HomePage } from './components/pages/HomePage/HomePage';
 import { PortfolioPage } from './components/pages/PortfolioPage/PortfolioPage';
 import programmingItems from './data/programming.json';
 import filmmakingItems  from './data/filmmaking.json';
@@ -15,12 +16,7 @@ export default function App() {
     <>
       <Nav activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {activeTab === 'home' && (
-        <div style={{ padding: '2rem' }} className="page-enter">
-          <h1>Home — coming soon</h1>
-          <p>HomePage component will go here (Step 6).</p>
-        </div>
-      )}
+      {activeTab === 'home' && <HomePage />}
 
       {activeTab === 'programming' && (
         <PortfolioPage
