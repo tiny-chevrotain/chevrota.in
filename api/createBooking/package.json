@@ -1,0 +1,9 @@
+{
+  "name": "create-booking",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "googleapis": "^144.0.0",
+    "@aws-sdk/client-ses": "^3.0.0"
+  }
+}

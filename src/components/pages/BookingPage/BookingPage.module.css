@@ -1,0 +1,475 @@
+/* ── Layout ── */
+.page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--gradient-bg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-m) var(--space-l);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(245, 240, 232, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.headerTagline {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-l) var(--space-m);
+}
+
+.card {
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-l);
+  width: 100%;
+  max-width: 640px;
+  animation: fadeIn 350ms ease forwards;
+}
+
+/* ── Step indicator ── */
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-l);
+  flex-wrap: wrap;
+}
+
+.stepDot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: 2px solid transparent;
+  transition: background var(--transition-normal), border-color var(--transition-normal);
+  cursor: default;
+}
+
+.stepDotActive {
+  background: var(--color-accent-violet);
+  width: 12px;
+  height: 12px;
+}
+
+.stepDotDone {
+  background: var(--color-accent-mint);
+}
+
+.stepDotLabel {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  pointer-events: none;
+}
+
+/* ── Step shared ── */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.stepHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  color: var(--color-ink);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.stepSubheading {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-top: calc(-1 * var(--space-s));
+}
+
+.stepActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-m);
+  margin-top: var(--space-s);
+}
+
+/* ── Buttons ── */
+.btnPrimary {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--color-accent-violet);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 28px;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+.btnPrimary:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+.btnPrimary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.btnSecondary {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.btnSecondary:hover:not(:disabled) { background: rgba(26, 22, 37, 0.05); }
+.btnSecondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Step 1: Session type ── */
+.optionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-m);
+}
+
+.optionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-m);
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.optionCard:hover { border-color: var(--color-accent-violet); box-shadow: var(--shadow-card); }
+.optionCard.selected { border-color: var(--color-accent-violet); background: rgba(124, 58, 237, 0.04); }
+
+.optionIcon { font-size: 1.5rem; }
+.optionLabel { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--color-ink); }
+.optionDesc { font-size: 0.85rem; color: var(--color-muted); line-height: 1.5; }
+
+/* ── Step 2: Duration ── */
+.durationGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-m);
+}
+
+.durationCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-m);
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+}
+.durationCard:hover { border-color: var(--color-accent-violet); box-shadow: var(--shadow-card); }
+.durationCard.selected { border-color: var(--color-accent-violet); background: rgba(124, 58, 237, 0.04); }
+
+.studioCard { border-color: var(--color-accent-yellow); }
+.studioCard:hover { border-color: var(--color-accent-coral); }
+.studioCard.selected { border-color: var(--color-accent-coral); background: rgba(255, 107, 74, 0.04); }
+
+.studioTag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent-coral);
+  background: rgba(255, 107, 74, 0.1);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  margin-bottom: 2px;
+}
+
+.durationLabel { font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600; color: var(--color-ink); }
+.durationPrice { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: var(--color-accent-violet); }
+.durationDeliverables { font-size: 0.8rem; color: var(--color-muted); line-height: 1.4; }
+
+/* ── Step 3: Calendar ── */
+.calendarNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-m);
+}
+
+.calMonthLabel {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.calNavBtn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  padding: 4px 14px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--color-ink);
+  transition: background var(--transition-fast);
+}
+.calNavBtn:hover { background: rgba(26, 22, 37, 0.06); }
+
+.calLoading, .calError {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  padding: var(--space-l) 0;
+}
+.calError { color: var(--color-accent-coral); }
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calDayHeader {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  padding-bottom: var(--space-xs);
+}
+
+.calDay {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+.calDay:hover:not(:disabled) { background: rgba(124, 58, 237, 0.08); border-color: var(--color-accent-violet); }
+.calDayUnavailable { background: transparent; border-color: transparent; color: var(--color-muted); opacity: 0.4; cursor: not-allowed; }
+.calDayToday { font-weight: 700; border-color: var(--color-accent-violet); }
+.calDaySelected { background: var(--color-accent-violet); color: var(--color-white); border-color: var(--color-accent-violet); }
+.calDaySelected:hover:not(:disabled) { background: var(--color-accent-violet); opacity: 0.9; }
+
+/* ── Slots ── */
+.slotSection { margin-top: var(--space-m); }
+.slotHeading { font-size: 0.9rem; font-weight: 600; color: var(--color-ink); margin-bottom: var(--space-s); }
+
+.slotGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+
+.slotBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+}
+.slotAvailable { color: #1a7a3e; background: rgba(61, 214, 140, 0.1); border-color: rgba(61, 214, 140, 0.4); }
+.slotLocationOnly { color: #8a5c00; background: rgba(245, 200, 66, 0.15); border-color: rgba(245, 200, 66, 0.5); }
+.slotSelected { box-shadow: 0 0 0 2px currentColor; opacity: 1; font-weight: 700; }
+
+.slotLocationDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.locationOnlyNote {
+  margin-top: var(--space-s);
+  font-size: 0.8rem;
+  color: #8a5c00;
+  background: rgba(245, 200, 66, 0.12);
+  border: 1px solid rgba(245, 200, 66, 0.3);
+  border-radius: var(--radius-m);
+  padding: var(--space-s) var(--space-m);
+  line-height: 1.5;
+}
+
+.locationOnlyWarn {
+  margin-top: var(--space-s);
+  font-size: 0.8rem;
+  color: var(--color-accent-coral);
+  background: rgba(255, 107, 74, 0.08);
+  border: 1px solid rgba(255, 107, 74, 0.25);
+  border-radius: var(--radius-m);
+  padding: var(--space-s) var(--space-m);
+  line-height: 1.5;
+}
+
+/* ── Step 4: Contact ── */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.required { color: var(--color-accent-coral); }
+.optional { font-weight: 400; color: var(--color-muted); }
+
+.contactRow {
+  display: flex;
+  gap: var(--space-s);
+}
+
+.select, .input {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-m);
+  padding: 10px 14px;
+  transition: border-color var(--transition-fast);
+  outline: none;
+}
+.select:focus, .input:focus { border-color: var(--color-accent-violet); }
+.select { flex-shrink: 0; cursor: pointer; }
+.input { flex: 1; min-width: 0; }
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.textarea {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-m);
+  padding: 10px 14px;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color var(--transition-fast);
+  outline: none;
+  line-height: 1.5;
+}
+.textarea:focus { border-color: var(--color-accent-violet); }
+
+/* ── Step 5: Confirmation ── */
+.summaryCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-m);
+  padding: 12px var(--space-m);
+  border-bottom: 1px solid var(--color-border);
+}
+.summaryRow:last-child { border-bottom: none; }
+
+.summaryLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.summaryValue {
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  text-align: right;
+  line-height: 1.4;
+}
+
+.reservationNote {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+.submitError {
+  font-size: 0.85rem;
+  color: var(--color-accent-coral);
+  background: rgba(255, 107, 74, 0.08);
+  border: 1px solid rgba(255, 107, 74, 0.25);
+  border-radius: var(--radius-m);
+  padding: var(--space-s) var(--space-m);
+  text-align: center;
+}
+
+/* ── Success ── */
+.successIcon { font-size: 3rem; text-align: center; }
+.successText { font-size: 0.95rem; color: var(--color-muted); text-align: center; line-height: 1.6; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .card { padding: var(--space-m); }
+  .durationGrid { grid-template-columns: 1fr; }
+  .contactRow { flex-direction: column; }
+  .select { width: 100%; }
+  .stepActions { flex-direction: column-reverse; }
+  .btnPrimary, .btnSecondary { width: 100%; text-align: center; }
+}

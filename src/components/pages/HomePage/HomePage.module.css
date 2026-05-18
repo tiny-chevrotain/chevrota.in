@@ -30,6 +30,21 @@
   animation: fadeIn 400ms ease forwards;
 }
 
+.wipBanner {
+  display: inline-block;
+  background: var(--color-peach);
+  color: var(--color-accent-coral);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-m);
+  border: 1px solid rgba(255, 107, 74, 0.25);
+}
+
 .name {
   font-family: var(--font-heading);
   font-size: clamp(2.25rem, 5vw, 3.25rem);

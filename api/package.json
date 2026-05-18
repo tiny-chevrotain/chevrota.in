@@ -1,0 +1,9 @@
+{
+  "name": "chevrota-api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}

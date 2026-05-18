@@ -45,6 +45,7 @@ export function HomePage() {
       </div>
 
       <div className={styles.bio}>
+        <span className={styles.wipBanner}>This is a work in progress</span>
         <h1 className={styles.name}>{homeData.name}</h1>
         <p className={styles.tagline}>{homeData.tagline}</p>
         {homeData.bio.map((para, i) => (
