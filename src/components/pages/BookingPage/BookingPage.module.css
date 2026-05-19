@@ -524,6 +524,18 @@
 .successIcon { font-size: 3rem; text-align: center; }
 .successText { font-size: 0.95rem; color: var(--color-muted); text-align: center; line-height: 1.6; }
 
+.notice {
+  background: #fff8e6;
+  border: 1px solid #f5c842;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: #7a5c00;
+  line-height: 1.5;
+  text-align: left;
+  margin-top: var(--space-m);
+}
+
 /* ── Responsive ── */
 @media (max-width: 480px) {
   .card { padding: var(--space-m); }

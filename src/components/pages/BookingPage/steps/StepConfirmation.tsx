@@ -106,6 +106,9 @@ export function StepConfirmation(_props: Props) {
         <p className={styles.successText}>
           Ollie will be in touch via {CONTACT_LABELS[state.contactMethod!]} to confirm.
         </p>
+        <div className={styles.notice}>
+          <strong>Heads up:</strong> automated confirmation emails are temporarily unavailable. Ollie will manually forward your booking summary to you shortly.
+        </div>
         <div className={styles.summaryCard}>
           <SummaryRow label="Session" value={SESSION_LABELS[state.sessionType!]} />
           <SummaryRow label="Duration" value={getDurationLabel(state.durationMinutes!, state.isStudio)} />
