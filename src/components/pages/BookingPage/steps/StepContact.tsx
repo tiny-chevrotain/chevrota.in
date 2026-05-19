@@ -10,22 +10,35 @@ const contactMethods: { value: ContactMethod; label: string; placeholder: string
 
 interface Props {
   onNext: () => void;
-  onBack: () => void;
 }
 
-export function StepContact({ onNext, onBack }: Props) {
+export function StepContact({ onNext }: Props) {
   const { state, set } = useBooking();
 
   const selectedMethod = contactMethods.find(m => m.value === state.contactMethod);
 
-  const isValid = state.contactMethod !== null && state.contactValue.trim().length > 0;
+  const isValid =
+    state.email.includes('@') &&
+    state.contactMethod !== null &&
+    state.contactValue.trim().length > 0;
 
   return (
     <div className={styles.stepContent}>
-      <h2 className={styles.stepHeading}>How should Ollie reach you?</h2>
+      <h2 className={styles.stepHeading}>How can we reach you?</h2>
 
       <div className={styles.formGroup}>
-        <label className={styles.formLabel}>Contact method <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel}>Email <span className={styles.required}>*</span></label>
+        <input
+          className={styles.input}
+          type="email"
+          placeholder="you@example.com"
+          value={state.email}
+          onChange={e => set('email', e.target.value)}
+        />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label className={styles.formLabel}>Preferred contact <span className={styles.required}>*</span></label>
         <div className={styles.contactRow}>
           <select
             className={styles.select}
@@ -63,9 +76,6 @@ export function StepContact({ onNext, onBack }: Props) {
       </div>
 
       <div className={styles.stepActions}>
-        <button className={styles.btnSecondary} onClick={onBack} type="button">
-          Back
-        </button>
         <button
           className={styles.btnPrimary}
           onClick={onNext}

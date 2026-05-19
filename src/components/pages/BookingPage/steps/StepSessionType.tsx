@@ -2,23 +2,20 @@ import { useBooking } from '../BookingContext';
 import type { SessionType } from '../BookingContext';
 import styles from '../BookingPage.module.css';
 
-const options: { type: SessionType; label: string; icon: string; description: string }[] = [
+const options: { type: SessionType; label: string; description: string }[] = [
   {
     type: 'photoshoot',
-    icon: '📷',
     label: 'Photoshoot',
     description: 'Edited photos delivered within 7 days or full refund.',
   },
   {
     type: 'video',
-    icon: '🎬',
     label: 'Video',
     description:
       'Portrait or landscape. Showcase, music video, cinematic edit — returned within 7 days or full refund.',
   },
   {
     type: 'both',
-    icon: '✨',
     label: 'Photoshoot + Video',
     description:
       'Minimum 1 hour (30 min each). Full photo edit and video edit within 7 days or full refund.',
@@ -36,6 +33,7 @@ export function StepSessionType({ onNext }: Props) {
     set('sessionType', type);
     set('durationMinutes', null);
     set('isStudio', false);
+    setTimeout(onNext, 150);
   }
 
   return (
@@ -49,21 +47,10 @@ export function StepSessionType({ onNext }: Props) {
             onClick={() => choose(o.type)}
             type="button"
           >
-            <span className={styles.optionIcon}>{o.icon}</span>
             <span className={styles.optionLabel}>{o.label}</span>
             <span className={styles.optionDesc}>{o.description}</span>
           </button>
         ))}
-      </div>
-      <div className={styles.stepActions}>
-        <button
-          className={styles.btnPrimary}
-          onClick={onNext}
-          disabled={!state.sessionType}
-          type="button"
-        >
-          Next
-        </button>
       </div>
     </div>
   );

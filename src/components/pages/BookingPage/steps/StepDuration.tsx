@@ -66,10 +66,9 @@ const options: DurationOption[] = [
 
 interface Props {
   onNext: () => void;
-  onBack: () => void;
 }
 
-export function StepDuration({ onNext, onBack }: Props) {
+export function StepDuration({ onNext }: Props) {
   const { state, set } = useBooking();
   const sessionType = state.sessionType!;
 
@@ -80,6 +79,7 @@ export function StepDuration({ onNext, onBack }: Props) {
     set('isStudio', isStudio);
     set('date', null);
     set('time', null);
+    setTimeout(onNext, 150);
   }
 
   const isSelected = (o: DurationOption, studio: boolean) =>
@@ -121,19 +121,6 @@ export function StepDuration({ onNext, onBack }: Props) {
           ))}
       </div>
 
-      <div className={styles.stepActions}>
-        <button className={styles.btnSecondary} onClick={onBack} type="button">
-          Back
-        </button>
-        <button
-          className={styles.btnPrimary}
-          onClick={onNext}
-          disabled={state.durationMinutes === null}
-          type="button"
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 }

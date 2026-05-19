@@ -43,10 +43,9 @@ const apiBase = (import.meta.env.VITE_API_BASE as string | undefined) ?? '';
 
 interface Props {
   onNext: () => void;
-  onBack: () => void;
 }
 
-export function StepCalendar({ onNext, onBack }: Props) {
+export function StepCalendar({ onNext }: Props) {
   const { state, set } = useBooking();
 
   const now = new Date();
@@ -250,9 +249,6 @@ export function StepCalendar({ onNext, onBack }: Props) {
       )}
 
       <div className={styles.stepActions}>
-        <button className={styles.btnSecondary} onClick={onBack} type="button">
-          Back
-        </button>
         <button
           className={styles.btnPrimary}
           onClick={onNext}

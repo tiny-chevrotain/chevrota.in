@@ -55,11 +55,9 @@ const CONTACT_LABELS: Record<string, string> = {
   instagram: 'Instagram',
 };
 
-interface Props {
-  onBack: () => void;
-}
+interface Props {}
 
-export function StepConfirmation({ onBack }: Props) {
+export function StepConfirmation(_props: Props) {
   const { state } = useBooking();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -82,6 +80,7 @@ export function StepConfirmation({ onBack }: Props) {
           isStudio: state.isStudio,
           date: state.date,
           time: state.time,
+          email: state.email,
           contactMethod: state.contactMethod,
           contactValue: state.contactValue,
           info: state.info,
@@ -130,6 +129,7 @@ export function StepConfirmation({ onBack }: Props) {
         <SummaryRow label="Time" value={format12h(state.time!)} />
         <SummaryRow label="Price" value={`£${price}`} />
         <SummaryRow label="Deliverables" value={`${deliverables} — within 7 days or full refund`} />
+        <SummaryRow label="Email" value={state.email} />
         <SummaryRow label={CONTACT_LABELS[state.contactMethod!]} value={state.contactValue} />
         {state.info && <SummaryRow label="Info" value={state.info} />}
       </div>
@@ -141,9 +141,6 @@ export function StepConfirmation({ onBack }: Props) {
       {submitError && <p className={styles.submitError}>{submitError}</p>}
 
       <div className={styles.stepActions}>
-        <button className={styles.btnSecondary} onClick={onBack} disabled={submitting} type="button">
-          Back
-        </button>
         <button
           className={styles.btnPrimary}
           onClick={submit}

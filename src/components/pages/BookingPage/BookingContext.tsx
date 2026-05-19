@@ -12,6 +12,7 @@ export interface BookingState {
   time: string | null;
   slotIsLocationOnly: boolean;
   locationName: string | null;
+  email: string;
   contactMethod: ContactMethod | null;
   contactValue: string;
   info: string;
@@ -31,6 +32,7 @@ const initial: BookingState = {
   time: null,
   slotIsLocationOnly: false,
   locationName: null,
+  email: '',
   contactMethod: null,
   contactValue: '',
   info: '',

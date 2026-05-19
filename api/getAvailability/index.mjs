@@ -25,8 +25,24 @@ function generateSlots(year, month, day, durationMinutes) {
   return slots;
 }
 
+function parseLondonTime(dateStr, time) {
+  // Build the UTC timestamp that corresponds to "dateStr time" in Europe/London.
+  // new Date(isoWithoutTZ) is parsed as UTC on Lambda, so we correct for London's offset.
+  const utcCandidate = new Date(`${dateStr}T${time}:00Z`);
+  const fmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+  });
+  const parts = fmt.formatToParts(utcCandidate);
+  const get = type => +parts.find(p => p.type === type).value;
+  const londonAsUTC = Date.UTC(get('year'), get('month') - 1, get('day'), get('hour'), get('minute'));
+  const offsetMs = londonAsUTC - utcCandidate.getTime();
+  return new Date(utcCandidate.getTime() - offsetMs);
+}
+
 function slotToDateTimes(dateStr, time, durationMinutes) {
-  const start = new Date(`${dateStr}T${time}:00`);
+  const start = parseLondonTime(dateStr, time);
   const end = new Date(start.getTime() + durationMinutes * 60000);
   return { start, end };
 }

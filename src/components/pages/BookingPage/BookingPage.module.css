@@ -53,18 +53,52 @@
   animation: fadeIn 350ms ease forwards;
 }
 
+/* ── Card header (back arrow row) ── */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-s);
+  min-height: 28px;
+}
+
+.backArrow {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+.backArrow:hover { color: var(--color-ink); }
+
 /* ── Step indicator ── */
 .stepIndicator {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
+  gap: 6px;
   margin-bottom: var(--space-l);
-  flex-wrap: wrap;
+}
+
+.stepCurrentLabel {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+}
+
+.stepDots {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .stepDot {
-  position: relative;
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -72,6 +106,7 @@
   border: 2px solid transparent;
   transition: background var(--transition-normal), border-color var(--transition-normal);
   cursor: default;
+  display: block;
 }
 
 .stepDotActive {
@@ -82,24 +117,6 @@
 
 .stepDotDone {
   background: var(--color-accent-mint);
-}
-
-.stepDotLabel {
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.65rem;
-  color: var(--color-muted);
-  white-space: nowrap;
-  font-family: var(--font-sans);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--transition-fast);
-}
-
-.stepDotActive .stepDotLabel {
-  opacity: 1;
 }
 
 /* ── Step shared ── */

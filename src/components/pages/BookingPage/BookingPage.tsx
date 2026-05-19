@@ -22,27 +22,34 @@ export function BookingPage() {
 
         <main className={styles.main}>
           <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              {step === 0
+                ? <a href="/" className={styles.backArrow} aria-label="Back to site">←</a>
+                : <button className={styles.backArrow} onClick={() => setStep(step - 1)} type="button" aria-label="Go back">←</button>
+              }
+            </div>
             <nav className={styles.stepIndicator} aria-label="Booking steps">
-              {STEPS.map((label, i) => (
-                <span
-                  key={label}
-                  className={[
-                    styles.stepDot,
-                    i === step ? styles.stepDotActive : '',
-                    i < step ? styles.stepDotDone : '',
-                  ].join(' ')}
-                  aria-current={i === step ? 'step' : undefined}
-                >
-                  <span className={styles.stepDotLabel}>{label}</span>
-                </span>
-              ))}
+              <span className={styles.stepCurrentLabel}>{STEPS[step]}</span>
+              <div className={styles.stepDots}>
+                {STEPS.map((label, i) => (
+                  <span
+                    key={label}
+                    className={[
+                      styles.stepDot,
+                      i === step ? styles.stepDotActive : '',
+                      i < step ? styles.stepDotDone : '',
+                    ].join(' ')}
+                    aria-current={i === step ? 'step' : undefined}
+                  />
+                ))}
+              </div>
             </nav>
 
             {step === 0 && <StepSessionType onNext={() => setStep(1)} />}
-            {step === 1 && <StepDuration onNext={() => setStep(2)} onBack={() => setStep(0)} />}
-            {step === 2 && <StepCalendar onNext={() => setStep(3)} onBack={() => setStep(1)} />}
-            {step === 3 && <StepContact onNext={() => setStep(4)} onBack={() => setStep(2)} />}
-            {step === 4 && <StepConfirmation onBack={() => setStep(3)} />}
+            {step === 1 && <StepDuration onNext={() => setStep(2)} />}
+            {step === 2 && <StepCalendar onNext={() => setStep(3)} />}
+            {step === 3 && <StepContact onNext={() => setStep(4)} />}
+            {step === 4 && <StepConfirmation />}
           </div>
         </main>
       </div>
