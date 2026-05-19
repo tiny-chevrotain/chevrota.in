@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "deploy:availability": "cd api/getAvailability && npm install --production && mkdir -p ../dist && zip -r ../dist/get-availability.zip . && cd ../.. && aws lambda update-function-code --function-name chevrotain-get-availability --zip-file fileb://api/dist/get-availability.zip --region eu-north-1",
     "deploy:booking": "cd api/createBooking && npm install --production && mkdir -p ../dist && zip -r ../dist/create-booking.zip . && cd ../.. && aws lambda update-function-code --function-name chevrotain-create-booking --zip-file fileb://api/dist/create-booking.zip --region eu-north-1",
-    "deploy:lambdas": "npm run deploy:availability && npm run deploy:booking"
+    "deploy:lambdas": "npm run deploy:availability && npm run deploy:booking",
+    "setup:permissions": "bash api/scripts/set-lambda-permissions.sh"
   },
   "dependencies": {
     "react": "^19.2.4",
