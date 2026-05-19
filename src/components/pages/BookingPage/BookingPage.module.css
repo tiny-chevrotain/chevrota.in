@@ -319,6 +319,17 @@
   background-size: 200% 100%;
   animation: shimmer 1.4s ease infinite;
 }
+.calSkeletonHint {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: var(--space-s);
+  background: linear-gradient(90deg, #c8c0d4 25%, #a89fc0 50%, #c8c0d4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 .calendar {
   display: grid;

@@ -164,10 +164,13 @@ export function StepCalendar({ onNext }: Props) {
       )}
 
       {loading && (
-        <div className={styles.calSkeleton}>
-          {DAY_LABELS.map(d => <span key={d} className={styles.calSkeletonHeader} />)}
-          {Array.from({ length: 35 }, (_, i) => <span key={i} className={styles.calSkeletonCell} />)}
-        </div>
+        <>
+          <div className={styles.calSkeleton}>
+            {DAY_LABELS.map(d => <span key={d} className={styles.calSkeletonHeader} />)}
+            {Array.from({ length: 35 }, (_, i) => <span key={i} className={styles.calSkeletonCell} />)}
+          </div>
+          <p className={styles.calSkeletonHint}>Fetching availability — this usually takes a few seconds…</p>
+        </>
       )}
       {error && <p className={styles.calError}>{error}</p>}
 
