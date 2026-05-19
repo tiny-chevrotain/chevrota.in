@@ -94,6 +94,12 @@
   white-space: nowrap;
   font-family: var(--font-sans);
   pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.stepDotActive .stepDotLabel {
+  opacity: 1;
 }
 
 /* ── Step shared ── */
@@ -254,6 +260,16 @@
 }
 .calNavBtn:hover { background: rgba(26, 22, 37, 0.06); }
 
+.mcmBanner {
+  font-size: 0.8rem;
+  color: #8a5c00;
+  background: rgba(245, 200, 66, 0.12);
+  border: 1px solid rgba(245, 200, 66, 0.3);
+  border-radius: var(--radius-m);
+  padding: var(--space-s) var(--space-m);
+  line-height: 1.5;
+}
+
 .calLoading, .calError {
   text-align: center;
   color: var(--color-muted);
@@ -297,6 +313,8 @@
 .calDayToday { font-weight: 700; border-color: var(--color-accent-violet); }
 .calDaySelected { background: var(--color-accent-violet); color: var(--color-white); border-color: var(--color-accent-violet); }
 .calDaySelected:hover:not(:disabled) { background: var(--color-accent-violet); opacity: 0.9; }
+.calDayMcm { background: rgba(245, 200, 66, 0.1); border-color: rgba(245, 200, 66, 0.35); color: var(--color-muted); cursor: not-allowed; }
+.calDayMcm:hover:not(:disabled) { background: rgba(245, 200, 66, 0.1); border-color: rgba(245, 200, 66, 0.35); }
 
 /* ── Slots ── */
 .slotSection { margin-top: var(--space-m); }

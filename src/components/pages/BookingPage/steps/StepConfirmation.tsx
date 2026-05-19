@@ -71,8 +71,9 @@ export function StepConfirmation({ onBack }: Props) {
   async function submit() {
     setSubmitting(true);
     setSubmitError(null);
+    const apiBase = (import.meta.env.VITE_API_BASE as string | undefined) ?? '';
     try {
-      const res = await fetch('/api/booking', {
+      const res = await fetch(`${apiBase}/api/booking`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

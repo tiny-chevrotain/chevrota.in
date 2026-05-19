@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useBooking } from '../BookingContext';
 import styles from '../BookingPage.module.css';
+import { MCM_UNAVAILABLE } from '../config/eventFlags';
 
 type SlotStatus = 'available' | 'location-only' | 'busy';
 
@@ -38,6 +39,8 @@ function format12h(time24: string): string {
   return `${h12}:${String(m).padStart(2, '0')}${ampm}`;
 }
 
+const apiBase = (import.meta.env.VITE_API_BASE as string | undefined) ?? '';
+
 interface Props {
   onNext: () => void;
   onBack: () => void;
@@ -55,15 +58,27 @@ export function StepCalendar({ onNext, onBack }: Props) {
 
   const selectedDay = state.date;
 
+  function isMcmDate(dateKey: string): boolean {
+    return (
+      MCM_UNAVAILABLE.enabled &&
+      state.isStudio === true &&
+      dateKey >= MCM_UNAVAILABLE.start &&
+      dateKey <= MCM_UNAVAILABLE.end
+    );
+  }
+
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError(null);
 
     fetch(
-      `/api/availability?year=${viewYear}&month=${viewMonth + 1}&durationMinutes=${state.durationMinutes}`,
+      `${apiBase}/api/availability?year=${viewYear}&month=${viewMonth + 1}&durationMinutes=${state.durationMinutes}`,
     )
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`Server error ${r.status}`);
+        return r.json();
+      })
       .then(data => {
         if (!cancelled) {
           setAvailability(data.availability ?? {});
@@ -95,6 +110,7 @@ export function StepCalendar({ onNext, onBack }: Props) {
   }
 
   function selectDay(dateKey: string) {
+    if (isMcmDate(dateKey)) return;
     const slots = availability[dateKey] ?? [];
     const hasAvailable = slots.some(s => s.status !== 'busy');
     if (!hasAvailable) return;
@@ -124,6 +140,8 @@ export function StepCalendar({ onNext, onBack }: Props) {
   const locationOnlySelected =
     state.slotIsLocationOnly && state.isStudio;
 
+  const showMcmBanner = MCM_UNAVAILABLE.enabled && state.isStudio;
+
   return (
     <div className={styles.stepContent}>
       <h2 className={styles.stepHeading}>Pick a date and time</h2>
@@ -139,6 +157,12 @@ export function StepCalendar({ onNext, onBack }: Props) {
           ›
         </button>
       </div>
+
+      {showMcmBanner && (
+        <p className={styles.mcmBanner}>
+          Studio sessions unavailable {MCM_UNAVAILABLE.start} – {MCM_UNAVAILABLE.end} ({MCM_UNAVAILABLE.label})
+        </p>
+      )}
 
       {loading && <p className={styles.calLoading}>Loading availability…</p>}
       {error && <p className={styles.calError}>{error}</p>}
@@ -156,6 +180,7 @@ export function StepCalendar({ onNext, onBack }: Props) {
             const isPast = dateKey < todayKey;
             const isToday = dateKey === todayKey;
             const isSelected = selectedDay === dateKey;
+            const isMcm = isMcmDate(dateKey);
 
             return (
               <button
@@ -164,11 +189,13 @@ export function StepCalendar({ onNext, onBack }: Props) {
                 className={[
                   styles.calDay,
                   isPast || !hasAvailable ? styles.calDayUnavailable : '',
+                  isMcm ? styles.calDayMcm : '',
                   isToday ? styles.calDayToday : '',
                   isSelected ? styles.calDaySelected : '',
                 ].join(' ')}
                 onClick={() => selectDay(dateKey)}
-                disabled={isPast || !hasAvailable}
+                disabled={isPast || !hasAvailable || isMcm}
+                title={isMcm ? `Studio unavailable — Ollie will be at ${MCM_UNAVAILABLE.label}` : undefined}
               >
                 {day}
               </button>

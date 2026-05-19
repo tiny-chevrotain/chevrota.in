@@ -104,22 +104,21 @@ export function StepDuration({ onNext, onBack }: Props) {
           </button>
         ))}
 
-        {sessionType === 'photoshoot' &&
-          available
-            .filter(o => o.studioAvailable && o.studioPrice)
-            .map(o => (
-              <button
-                key={`${o.minutes}-studio`}
-                className={`${styles.durationCard} ${styles.studioCard} ${isSelected(o, true) ? styles.selected : ''}`}
-                onClick={() => choose(o.minutes, true)}
-                type="button"
-              >
-                <span className={styles.studioTag}>Studio</span>
-                <span className={styles.durationLabel}>{o.label}</span>
-                <span className={styles.durationPrice}>£{o.studioPrice}</span>
-                <span className={styles.durationDeliverables}>{o.deliverables(sessionType)}</span>
-              </button>
-            ))}
+        {available
+          .filter(o => o.studioAvailable && o.studioPrice)
+          .map(o => (
+            <button
+              key={`${o.minutes}-studio`}
+              className={`${styles.durationCard} ${styles.studioCard} ${isSelected(o, true) ? styles.selected : ''}`}
+              onClick={() => choose(o.minutes, true)}
+              type="button"
+            >
+              <span className={styles.studioTag}>Studio</span>
+              <span className={styles.durationLabel}>{o.label}</span>
+              <span className={styles.durationPrice}>£{o.studioPrice}</span>
+              <span className={styles.durationDeliverables}>{o.deliverables(sessionType)}</span>
+            </button>
+          ))}
       </div>
 
       <div className={styles.stepActions}>
