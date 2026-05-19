@@ -1,10 +1,7 @@
-# .github/workflows/deploy-to-s3.yml
-name: Deploy to S3
+name: Deploy
 
 on:
   push:
-    branches: [ main ]  # or whatever your default branch is
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -28,16 +25,16 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-north-1  # Change to your bucket's region
+        aws-region: eu-north-1
 
-    - name: Upload specific file to S3
+    - name: Build and deploy frontend
       run: |
-        npm run build        
+        npm run build
         aws s3 sync ./dist s3://chevrota.in/ --delete
 
-    # Optional: Invalidate CloudFront cache if you're using it
     - name: Invalidate CloudFront
       run: |
         aws cloudfront create-invalidation --distribution-id E3EX5QP5AQFY2C --paths "/*"
-      # Only run this step if you have CloudFront
-      if: true  # Change to true if you want to use this
+
+    - name: Deploy Lambda functions
+      run: npm run deploy:lambdas
