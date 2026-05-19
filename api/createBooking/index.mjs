@@ -229,6 +229,7 @@ export const handler = async (event) => {
     greeting: 'New booking received!',
     rows: ownerRows,
     footerHtml: `<a href="${reserveUrl}" style="color:#b0a9bf;text-decoration:none">chevrota.in</a> booking system`,
+    bookingLink: bookingUrl,
   });
 
   const customerHtml = buildHtmlEmail({

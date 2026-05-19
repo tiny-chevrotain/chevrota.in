@@ -33,6 +33,10 @@ export function BookingConfirmationPage() {
             Ollie will be in touch to confirm everything. Keep this page bookmarked for your reference.
           </p>
 
+          <div className={styles.notice}>
+            <strong>Heads up:</strong> automated confirmation emails are temporarily unavailable. Ollie will manually forward your booking summary to you shortly.
+          </div>
+
           <table className={styles.table}>
             <tbody>
               {rows.map(r => (
