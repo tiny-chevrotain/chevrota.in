@@ -161,11 +161,20 @@ export const handler = async (event) => {
     { label: 'Deliverables', value: `${deliverables} — within 7 days or full refund` },
   ];
 
+  function htmlEncode(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/£/g, '&pound;')
+      .replace(/—/g, '&mdash;');
+  }
+
   function buildHtmlEmail({ greeting, rows, footer }) {
     const rowsHtml = rows.map(r => `
       <tr>
-        <td style="padding:10px 0;border-bottom:1px solid #f0ebe2;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#8a8499;width:38%;vertical-align:top">${r.label}</td>
-        <td style="padding:10px 0;border-bottom:1px solid #f0ebe2;font-size:0.9rem;color:#1a1625;vertical-align:top">${r.value}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #f0ebe2;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#8a8499;width:38%;vertical-align:top">${htmlEncode(r.label)}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #f0ebe2;font-size:0.9rem;color:#1a1625;vertical-align:top">${htmlEncode(r.value)}</td>
       </tr>`).join('');
 
     return `<!DOCTYPE html>
@@ -210,42 +219,46 @@ export const handler = async (event) => {
     footer: 'chevrota.in &mdash; questions? Reply to this email.',
   });
 
+  let ownerEmailSent = false;
   try {
     await ses.send(new SendEmailCommand({
       Source: process.env.SES_FROM_EMAIL,
       Destination: { ToAddresses: [process.env.NOTIFICATION_EMAIL] },
       Message: {
-        Subject: { Data: `New Booking: ${sessionLabel} — ${dateDisplay}, ${timeDisplay}` },
+        Subject: { Charset: 'UTF-8', Data: `New Booking: ${sessionLabel} - ${dateDisplay}, ${timeDisplay}` },
         Body: {
-          Html: { Data: ownerHtml },
-          Text: { Data: buildPlainEmail({ greeting: 'New booking received!', rows: ownerRows }) },
+          Html: { Charset: 'UTF-8', Data: ownerHtml },
+          Text: { Charset: 'UTF-8', Data: buildPlainEmail({ greeting: 'New booking received!', rows: ownerRows }) },
         },
       },
     }));
+    ownerEmailSent = true;
   } catch (err) {
-    console.error('SES owner email error:', err);
+    console.error('SES owner email error:', err.message, err.code ?? '');
   }
 
+  let customerEmailSent = false;
   try {
     await ses.send(new SendEmailCommand({
       Source: process.env.SES_FROM_EMAIL,
       Destination: { ToAddresses: [email] },
       Message: {
-        Subject: { Data: `Booking confirmed — ${sessionLabel}, ${dateDisplay}` },
+        Subject: { Charset: 'UTF-8', Data: `Booking confirmed - ${sessionLabel}, ${dateDisplay}` },
         Body: {
-          Html: { Data: customerHtml },
-          Text: { Data: buildPlainEmail({ greeting: `Thanks for booking! Ollie will be in touch via ${contactLabel.toLowerCase()} to confirm.`, rows: sharedRows }) },
+          Html: { Charset: 'UTF-8', Data: customerHtml },
+          Text: { Charset: 'UTF-8', Data: buildPlainEmail({ greeting: `Thanks for booking! Ollie will be in touch via ${contactLabel.toLowerCase()} to confirm.`, rows: sharedRows }) },
         },
       },
     }));
+    customerEmailSent = true;
   } catch (err) {
-    console.error('SES customer email error:', err);
+    console.error('SES customer email error:', err.message, err.code ?? '');
   }
 
   return {
     statusCode: 200,
     headers: corsHeaders(),
-    body: JSON.stringify({ success: true, eventId }),
+    body: JSON.stringify({ success: true, eventId, ownerEmailSent, customerEmailSent }),
   };
 };
 
