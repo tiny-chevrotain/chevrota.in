@@ -23,10 +23,9 @@ export function BookingPage() {
         <main className={styles.main}>
           <div className={styles.card}>
             <div className={styles.cardHeader}>
-              {step === 0
-                ? <a href="/" className={styles.backArrow} aria-label="Back to site">←</a>
-                : <button className={styles.backArrow} onClick={() => setStep(step - 1)} type="button" aria-label="Go back">←</button>
-              }
+              {step > 0 && (
+                <button className={styles.backArrow} onClick={() => setStep(step - 1)} type="button" aria-label="Go back">←</button>
+              )}
             </div>
             <nav className={styles.stepIndicator} aria-label="Booking steps">
               <span className={styles.stepCurrentLabel}>{STEPS[step]}</span>

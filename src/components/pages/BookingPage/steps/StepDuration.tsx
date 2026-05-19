@@ -17,8 +17,8 @@ const options: DurationOption[] = [
     minutes: 30,
     label: '30 minutes',
     price: 30,
-    deliverables: () => 'Minimum 50 edited photos',
-    forTypes: ['photoshoot'],
+    deliverables: (t) => t === 'video' ? 'Video edit' : 'Minimum 50 edited photos',
+    forTypes: ['photoshoot', 'video'],
     studioAvailable: false,
   },
   {

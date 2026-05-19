@@ -161,6 +161,17 @@ export const handler = async (event) => {
     { label: 'Deliverables', value: `${deliverables} — within 7 days or full refund` },
   ];
 
+  const bookingParams = new URLSearchParams({
+    session: `${sessionLabel} (${durationLabel})`,
+    date: dateDisplay,
+    time: timeDisplay,
+    price: String(price),
+    deliverables: `${deliverables} — within 7 days or full refund`,
+    studio: String(!!isStudio),
+  });
+  const bookingUrl = `https://chevrota.in/booking?${bookingParams.toString()}`;
+  const reserveUrl = 'https://chevrota.in/reserve_slot';
+
   function htmlEncode(str) {
     return str
       .replace(/&/g, '&amp;')
@@ -170,12 +181,18 @@ export const handler = async (event) => {
       .replace(/—/g, '&mdash;');
   }
 
-  function buildHtmlEmail({ greeting, rows, footer }) {
+  function buildHtmlEmail({ greeting, rows, footerHtml, bookingLink }) {
     const rowsHtml = rows.map(r => `
       <tr>
         <td style="padding:10px 0;border-bottom:1px solid #f0ebe2;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#8a8499;width:38%;vertical-align:top">${htmlEncode(r.label)}</td>
         <td style="padding:10px 0;border-bottom:1px solid #f0ebe2;font-size:0.9rem;color:#1a1625;vertical-align:top">${htmlEncode(r.value)}</td>
       </tr>`).join('');
+
+    const bookingLinkHtml = bookingLink
+      ? `<div style="text-align:center;margin-top:24px;padding-top:20px">
+          <a href="${bookingLink}" style="display:inline-block;padding:12px 28px;background:#7c3aed;color:#ffffff;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem">View your booking &rarr;</a>
+         </div>`
+      : '';
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -183,14 +200,15 @@ export const handler = async (event) => {
 <body style="margin:0;padding:0;background:#f8f5f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
   <div style="max-width:520px;margin:0 auto;padding:32px 16px">
     <div style="text-align:center;margin-bottom:28px">
-      <div style="font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;color:#1a1625">chevrota.in</div>
+      <a href="${reserveUrl}" style="font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;color:#1a1625;text-decoration:none">chevrota.in</a>
       <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#8a8499;margin-top:4px">Photography &amp; Video</div>
     </div>
     <div style="background:#ffffff;border-radius:14px;padding:28px 28px 20px;box-shadow:0 2px 12px rgba(0,0,0,0.07)">
       <p style="margin:0 0 22px;font-size:1rem;color:#1a1625;line-height:1.55">${greeting}</p>
       <table style="width:100%;border-collapse:collapse">${rowsHtml}</table>
+      ${bookingLinkHtml}
     </div>
-    <p style="text-align:center;font-size:0.75rem;color:#b0a9bf;margin-top:20px">${footer}</p>
+    <p style="text-align:center;font-size:0.75rem;color:#b0a9bf;margin-top:20px">${footerHtml}</p>
   </div>
 </body>
 </html>`;
@@ -210,13 +228,14 @@ export const handler = async (event) => {
   const ownerHtml = buildHtmlEmail({
     greeting: 'New booking received!',
     rows: ownerRows,
-    footer: 'chevrota.in booking system',
+    footerHtml: `<a href="${reserveUrl}" style="color:#b0a9bf;text-decoration:none">chevrota.in</a> booking system`,
   });
 
   const customerHtml = buildHtmlEmail({
     greeting: `Thanks for booking! Here's a summary of your session. Ollie will be in touch via ${contactLabel.toLowerCase()} to confirm everything.`,
     rows: sharedRows,
-    footer: 'chevrota.in &mdash; questions? Reply to this email.',
+    footerHtml: `<a href="${reserveUrl}" style="color:#b0a9bf;text-decoration:none">chevrota.in</a> &mdash; questions? Reply to this email.`,
+    bookingLink: bookingUrl,
   });
 
   let ownerEmailSent = false;
@@ -246,7 +265,7 @@ export const handler = async (event) => {
         Subject: { Charset: 'UTF-8', Data: `Booking confirmed - ${sessionLabel}, ${dateDisplay}` },
         Body: {
           Html: { Charset: 'UTF-8', Data: customerHtml },
-          Text: { Charset: 'UTF-8', Data: buildPlainEmail({ greeting: `Thanks for booking! Ollie will be in touch via ${contactLabel.toLowerCase()} to confirm.`, rows: sharedRows }) },
+          Text: { Charset: 'UTF-8', Data: buildPlainEmail({ greeting: `Thanks for booking! Ollie will be in touch via ${contactLabel.toLowerCase()} to confirm.`, rows: sharedRows }) + `\n\nView your booking: ${bookingUrl}` },
         },
       },
     }));
